@@ -18,3 +18,13 @@ etc.
 
 There's a huge sea of tutorials around Computer Vision that I look to dive into and use to integrate
 Computer Vision into the technologies I work on.
+
+When looking at all the program created thus far for observing how the image changes whiles having
+various VideoCapture properties tinkered with. To keep things moving, I'll be picking a set of the
+properties with the most visible change to be fused into a single data collection program that not
+only collects images in the default settings of the camera but also oscilates the values for a 
+variety of different properties belonging to the VideoCapture stream.
+
+It would have also been more efficient to test this kind of thing under an object oriented scheme 
+where theres a main tester file for all the different properties using a hierarchy to require less
+copying and pasting between programs.
