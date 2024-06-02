@@ -39,12 +39,16 @@ while True:
     if count == minBrightness:
         growthRate = increment
 
-    print(count)
-
     if count == maxBrightness:
         growthRate = decrement
 
 
 cap.release()
 cv.destroyAllWindows()
+
+# Closing Reflection
+# When creating this program I familiarized myself with the properties of
+# cv.CAP_PROP_BRIGHTNESS and by trial and error I cam to determine its
+# maximum and minimum values as 365 and 0 when observing the changes occuring
+# on the live feed.
 
