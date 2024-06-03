@@ -9,7 +9,7 @@ import cv2 as cv
 
 default = 0
 count = 0
-maxBrightness = 365
+maxBrightness = 265
 minBrightness = 0
 camNum = 1
 growthRate = 1
@@ -35,6 +35,7 @@ while True:
     cap.set(cv.CAP_PROP_BRIGHTNESS, count)
 
     count += growthRate
+    print(count)
 
     if count == minBrightness:
         growthRate = increment
