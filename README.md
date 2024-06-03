@@ -28,3 +28,7 @@ variety of different properties belonging to the VideoCapture stream.
 It would have also been more efficient to test this kind of thing under an object oriented scheme 
 where theres a main tester file for all the different properties using a hierarchy to require less
 copying and pasting between programs.
+
+I've got the concept up and coded, now I need to optimize it. Figuring out code that can condense 
+down the logic used within this program. Also tweaking the setting around the images being captured
+to optimize the image capture quality when collecting data.
