@@ -17,6 +17,7 @@ cap = cv.VideoCapture(camNum)
 
 while True:
     success, img = cap.read()
+    img = cv.resize(img,(120, 100))
 
     cv.imshow("pyCam", img)
 
