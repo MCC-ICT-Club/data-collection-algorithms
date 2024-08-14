@@ -5,14 +5,15 @@ import os
 
 global countFolder
 
-os.environ.pop("QT_QPA_PLATFORM_PLUGIN_PATH")
+# os.environ.pop("QT_QPA_PLATFORM_PLUGIN_PATH")
 
 camNum = 0
+
 adjust = 50
 count = 0
 counter = 0
 countSave = 0
-moduleVal = 5
+moduleVal = 1
 minBlur = 50
 imgHeight = 480
 imgWidth = 720
@@ -40,7 +41,7 @@ while True:
     time.sleep(3)
     
     current = datetime.datetime.now()
-    newCycle = current + datetime.timedelta(seconds = 820)
+    newCycle = current + datetime.timedelta(seconds = 50)
 
     while True:
         
