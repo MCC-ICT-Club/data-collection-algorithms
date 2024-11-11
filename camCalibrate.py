@@ -3,22 +3,15 @@ import datetime
 import time
 import os
 
-camNum = 0
+# Loop Count Constants
 delay = 5
 rest = 3
 count = 0
 passCounter = 0
 programLength = 5
 passCount = 5
-bufferSize = 1
-autoExposure = 3
-brightness = 0.0
-isoSpeed = -1.0
-exposure = 156
-gain = 0.0
-imgHeight = 480
-imgWidth = 720
 
+# Image Save Constants
 countSave = 0
 moduleVal = 5
 minBlur = 25
@@ -26,13 +19,30 @@ saveData = False
 grayImage = False
 myPath = "data/images"
 
+# Camera Settings
+camNum = 0
+bufferSize = 1
+imgHeight = 480
+imgWidth = 720
+captureProperties = [
+    cv.CAP_PROP_AUTO_EXPOSURE, 
+    cv.CAP_PROP_ISO_SPEED,
+    cv.CAP_PROP_AUTO_WB,
+    cv.CAP_PROP_HUE,
+    cv.CAP_PROP_GAMMA,
+    cv.CAP_PROP_AUTOFOCUS,
+    cv.CAP_PROP_EXPOSURE, 
+    cv.CAP_PROP_BRIGHTNESS,    
+    cv.CAP_PROP_GAIN, 
+    cv.CAP_PROP_SATURATION,
+    cv.CAP_PROP_TEMPERATURE,
+    cv.CAP_PROP_CONTRAST,
+]
+
 def initialize_camera(camNum):
     cap = cv.VideoCapture(camNum, cv.CAP_V4L2)
     cap.set(cv.CAP_PROP_BUFFERSIZE, bufferSize)
-    cap.set(cv.CAP_PROP_BRIGHTNESS, brightness)
     return cap
-
-
 
 def saveDataFunc():
     global countFolder
@@ -40,50 +50,131 @@ def saveDataFunc():
     while os.path.exists( myPath+ str(countFolder)):
         countFolder += 1
     os.makedirs(myPath + str(countFolder))
-    
-def set_camera_property(cap, prop_id, value):
-    if cap.set(prop_id, value):
-        actual_value = cap.get(prop_id)
-        if actual_value == value:
-            print(f"Property (prop_id) set to (actual_value)")
-        else:
-            print(f"Property (prop_id) could not be set to (value), actual value is (actual_value)")
-    else:
-        print(f"Property (prop_id) is not supported by the backend")
 
-def set_brightness(cap, brightness):
-    success = cap.set(cv.CAP_PROP_EXPOSURE, brightness)
-    actual_brightness = cap.get(cv.CAP_PROP_EXPOSURE)
-    return success, actual_brightness
+def setCaptureProperty(cap, prop_id, value, prop_name):
+    cap.set(prop_id, value)
+    actual_value = cap.get(prop_id)
+    # print("Property " + str(prop_id) + " set to " + str(actual_value))
+    print(f'Property {prop_name} set to {actual_value}')
+
+def getPropName(prop_id):
+    propName = ""
+    match prop_id:
+        case 21:
+            propName = "Auto Exposure"
+        case 30:
+            propName = "ISO Speed"
+        case 44:
+            propName = "Auto WB"
+        case 13:
+            propName = "Hue"
+        case 22:
+            propName = "Gamma"
+        case 39:
+            propName = "Autofocus"
+        case 15:
+            propName = "Exposure"
+        case 10:
+            propName = "Brightness"
+        case 14:
+            propName = "Gain"
+        case 12: 
+            propName = "Saturation"
+        case 23:
+            propName = "Temperature"
+        case 11:
+            propName = "Contrast"
+        case _:
+            propName = ""
+    # if prop_id == captureProperties[0]:
+    #     propName = "Auto Exposure"
+    # elif prop_id == captureProperties[1]:
+    #     propName = "ISO Speed"
+    # elif prop_id == captureProperties[2]:
+    #     propName = "Auto WB"
+    # elif prop_id == captureProperties[3]:
+    #     propName = "Hue"
+    # elif prop_id == captureProperties[4]:
+    #     propName = "Gamma"
+    # elif prop_id == captureProperties[5]:
+    #     propName = "Autofocus"
+    # elif prop_id == captureProperties[6]:
+    #     propName = "Exposure"
+    # elif prop_id == captureProperties[7]:
+    #     propName = "Brightness"
+    # elif prop_id == captureProperties[8]:
+    #     propName = "Gain"
+    # elif prop_id == captureProperties[9]:
+    #     propName = "Saturation"
+    # elif prop_id == captureProperties[10]:
+    #     propName = "Temperature"
+    # elif prop_id == captureProperties[11]:
+    #     propName = "Contrast"
+    
+    return propName
+
+def appropriateCapPropValue(cap, prop_id): 
+    # Auto Exposure
+    if prop_id == captureProperties[0]:
+        value = cap.get(captureProperties[0])
+        value = 0
+    # ISO Speed
+    elif prop_id == captureProperties[1]:
+        value = cap.get(captureProperties[1])
+        value = 1
+        #value -= 1
+        # print(f'Value: {value}')
+    # Auto WB
+    elif prop_id == captureProperties[2]:
+        value = cap.get(captureProperties[2])
+        value - 0
+    # Hue
+    elif prop_id == captureProperties[3]:
+        value = cap.get(captureProperties[3])
+        value = 2.0
+    # Gamma
+    elif prop_id == captureProperties[4]:
+        value = cap.get(captureProperties[4])
+        value = 3.0    
+    # Autofocus
+    elif prop_id == captureProperties[5]:
+        value = cap.get(captureProperties[5])
+        value = 3
+    # Exposure
+    elif prop_id == captureProperties[6]:
+        value = cap.get(captureProperties[6])
+        value = 900
+    # Brightness
+    elif prop_id == captureProperties[7]:
+        value = cap.get(captureProperties[7])
+        value = 220
+    # Gain
+    elif prop_id == captureProperties[8]:
+        value = cap.get(captureProperties[8])
+        value = 100
+    # Saturation
+    elif prop_id == captureProperties[9]:
+        value = cap.get(captureProperties[9])
+        value = 80
+    # Temperature
+    elif prop_id == captureProperties[10]:
+        value = cap.get(captureProperties[10])
+        value += 100
+    # Contrast
+    elif prop_id == captureProperties[11]:
+        value = cap.get(captureProperties[11])
+        value = 80
+
+    return value
 
 while True:
-    
     cap = initialize_camera(camNum)
     
-    cap.set(cv.CAP_PROP_AUTO_EXPOSURE, autoExposure)
-    actual_auto_exposure = cap.get(cv.CAP_PROP_AUTO_EXPOSURE)
-    print("Actual Exposure: " + str(actual_auto_exposure))
-    
-    cap.set(cv.CAP_PROP_EXPOSURE, exposure)
-    actual_exposure = cap.get(cv.CAP_PROP_EXPOSURE)
-    print("Exposure: " + str(actual_exposure))
-    
-    cap.set(cv.CAP_PROP_BRIGHTNESS, brightness)
-    actual_brightness = cap.get(cv.CAP_PROP_BRIGHTNESS)
-    print("Brightness: " + str(actual_brightness))
-    
-    cap.set(cv.CAP_PROP_ISO_SPEED, isoSpeed)
-    actual_iso_speed = cap.get(cv.CAP_PROP_ISO_SPEED)
-    print("ISO Speed: " + str(actual_iso_speed))
-    
-    cap.set(cv.CAP_PROP_AUTO_WB, 1)
-    actual_auto_WB = cap.get(cv.CAP_PROP_AUTO_WB)
-    print("Auto WB: " + str(actual_auto_WB))
-    
-    cap.set(cv.CAP_PROP_GAIN, 0.0)
-    actual_gain = cap.get(cv.CAP_PROP_GAIN)
-    print("Gain: " + str(actual_gain))
-    
+    for capProp in captureProperties:
+        value = appropriateCapPropValue(cap, capProp)
+        propName = getPropName(capProp)
+        setCaptureProperty(cap, capProp, value, propName)
+
     time.sleep(rest)
     
     currentTime = datetime.datetime.now()
@@ -92,7 +183,6 @@ while True:
     while True:
         
         success, img = cap.read()
-        #cap.set(cv.CAP_PROP_BRIGHTNESS, brightness)
         img = cv.resize(img,(imgWidth, imgHeight))    
         cv.imshow("Brightness Calibration", img)
         
@@ -115,34 +205,21 @@ while True:
     
     cap.release()
     cap = cv.VideoCapture(camNum)
-    
-    if actual_auto_exposure >= 1:
-        autoExposure -= 1
-        
-    if actual_exposure > 25:
-        exposure = 156
-        
-    if actual_gain == -1.0:
-        gain += 1
-        
-    isoSpeed -= 1
-    
+  
     #cv.SetCaptureProperty(camNum, cv.CAP_PROP_BRIGHTNESS, brightness)
     #print(cap.get(cv.CAP_PROP_BRIGHTNESS))
     #success, actual_brightness = set_brightness(cap, brightness)
     #print(f"Requested brightness: {brightness}, Actual brightness: {actual_brightness}, Success: {success}")
     
-    if (actual_auto_exposure == 1 and actual_exposure > 100):
-        if actual_brightness > 20:
-            brightness += 25
+    if (cap.get(cv.CAP_PROP_AUTO_EXPOSURE) == 1.0 and cap.get(cv.CAP_PROP_EXPOSURE) > 100):
         passCounter += 1
-        saveData = True
+        saveData = False
         if saveData:saveDataFunc()
         programLength = 480
     
     if passCounter == passCount:
         break
-    
+  
     cap.release()
       
 cap.release()
