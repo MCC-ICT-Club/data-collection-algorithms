@@ -39,13 +39,6 @@ captureProperties = [
     cv.CAP_PROP_CONTRAST,
 ]
 
-exposure    = cv.getTrackbarPos("Exposure", "Lighting")
-brightness  = cv.getTrackbarPos("Brightness", "Lighting")
-gain        = cv.getTrackbarPos("Gain", "Lighting")
-saturation  = cv.getTrackbarPos("Saturation", "Lighting")
-temperature = cv.getTrackbarPos("Temperature", "Lighting")
-contrast    = cv.getTrackbarPos("Contrast", "Lighting")
-
 def initialize_camera(camNum):
     cap = cv.VideoCapture(camNum, cv.CAP_V4L2)
     cap.set(cv.CAP_PROP_BUFFERSIZE, bufferSize)
