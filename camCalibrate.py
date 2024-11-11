@@ -39,6 +39,13 @@ captureProperties = [
     cv.CAP_PROP_CONTRAST,
 ]
 
+exposure    = cv.getTrackbarPos("Exposure", "Lighting")
+brightness  = cv.getTrackbarPos("Brightness", "Lighting")
+gain        = cv.getTrackbarPos("Gain", "Lighting")
+saturation  = cv.getTrackbarPos("Saturation", "Lighting")
+temperature = cv.getTrackbarPos("Temperature", "Lighting")
+contrast    = cv.getTrackbarPos("Contrast", "Lighting")
+
 def initialize_camera(camNum):
     cap = cv.VideoCapture(camNum, cv.CAP_V4L2)
     cap.set(cv.CAP_PROP_BUFFERSIZE, bufferSize)
@@ -86,30 +93,6 @@ def getPropName(prop_id):
             propName = "Contrast"
         case _:
             propName = ""
-    # if prop_id == captureProperties[0]:
-    #     propName = "Auto Exposure"
-    # elif prop_id == captureProperties[1]:
-    #     propName = "ISO Speed"
-    # elif prop_id == captureProperties[2]:
-    #     propName = "Auto WB"
-    # elif prop_id == captureProperties[3]:
-    #     propName = "Hue"
-    # elif prop_id == captureProperties[4]:
-    #     propName = "Gamma"
-    # elif prop_id == captureProperties[5]:
-    #     propName = "Autofocus"
-    # elif prop_id == captureProperties[6]:
-    #     propName = "Exposure"
-    # elif prop_id == captureProperties[7]:
-    #     propName = "Brightness"
-    # elif prop_id == captureProperties[8]:
-    #     propName = "Gain"
-    # elif prop_id == captureProperties[9]:
-    #     propName = "Saturation"
-    # elif prop_id == captureProperties[10]:
-    #     propName = "Temperature"
-    # elif prop_id == captureProperties[11]:
-    #     propName = "Contrast"
     
     return propName
 
